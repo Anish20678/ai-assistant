@@ -1,0 +1,65 @@
+.envara-ai-assistant .envara-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.envara-ai-assistant .envara-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    flex: 1 1 200px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+
+.envara-ai-assistant .envara-card-number {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 10px 0 0;
+}
+
+.envara-ai-assistant .envara-shortcuts {
+    margin: 20px 0;
+}
+
+.envara-ai-assistant .envara-shortcuts .button {
+    margin-right: 10px;
+}
+
+.envara-conversations {
+    display: flex;
+    gap: 20px;
+}
+
+.envara-conversations-list,
+.envara-conversation-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.envara-transcript {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccd0d4;
+    padding: 15px;
+    background: #fff;
+}
+
+.envara-transcript .message {
+    margin-bottom: 15px;
+}
+
+.envara-transcript .message-assistant {
+    background: #f3f4f7;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.envara-form-builder {
+    margin-bottom: 20px;
+}
+
+.envara-form-builder .add-form-field {
+    margin-top: 10px;
+}
