@@ -7,10 +7,10 @@
 .envara-ai-assistant .envara-card {
     background: #fff;
     border: 1px solid #ccd0d4;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 20px;
     flex: 1 1 200px;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 .envara-ai-assistant .envara-card-number {
@@ -27,33 +27,311 @@
     margin-right: 10px;
 }
 
-.envara-conversations {
+.envara-filter-form {
     display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.envara-filter-form select {
+    min-width: 220px;
+}
+
+.envara-conversation-empty {
+    margin-top: 40px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #dfe4ea;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.envara-conversation-empty h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+}
+
+.envara-conversation-empty p {
+    margin: 0;
+    color: #475569;
+}
+
+.envara-conversation-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.envara-conversation-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.04), rgba(244, 244, 255, 0.52));
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+}
+
+.envara-conversation-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.envara-conversation-card__chatbot {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.envara-conversation-card__status {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.envara-conversation-card__status.status-active {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.envara-conversation-card__status.status-closed,
+.envara-conversation-card__status.status-ended {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.envara-conversation-card__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px 16px;
+}
+
+.envara-conversation-card__meta .label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.04em;
+}
+
+.envara-conversation-card__meta .value {
+    display: block;
+    color: #1f2937;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.envara-conversation-card__meta a.value {
+    color: #2563eb;
+}
+
+.envara-conversation-card__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.envara-conversation-card__preview .snippet {
+    margin: 0;
+    font-weight: 500;
+}
+
+.envara-conversation-card__preview .timestamp {
+    margin: 0;
+    color: #6366f1;
+}
+
+.envara-conversation-card__preview .count {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.envara-conversation-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.envara-conversation-card__actions form {
+    margin: 0;
+}
+
+.envara-conversation-card__actions .button {
+    border-radius: 999px;
+    padding: 6px 18px;
+}
+
+.envara-conversation-single .envara-conversation-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4f46e5;
+    text-decoration: none;
+    margin-bottom: 18px;
+    font-weight: 600;
+}
+
+.envara-conversation-summary {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    box-shadow: 0 22px 44px rgba(15, 23, 42, 0.1);
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
-.envara-conversations-list,
-.envara-conversation-details {
-    flex: 1;
-    min-width: 0;
+.envara-conversation-summary__heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.envara-transcript {
-    max-height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccd0d4;
-    padding: 15px;
+.envara-conversation-summary__heading h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.envara-conversation-status {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.envara-conversation-summary__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px 24px;
+}
+
+.envara-conversation-summary__meta .label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+}
+
+.envara-conversation-summary__meta .value {
+    display: block;
+    font-weight: 600;
+    color: #1f2937;
+    word-break: break-word;
+}
+
+.envara-conversation-summary__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.envara-conversation-summary__actions .button {
+    border-radius: 999px;
+    padding: 6px 18px;
+}
+
+.envara-conversation-slug {
+    margin: -10px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.envara-conversation-transcript {
+    margin-top: 28px;
     background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
 }
 
-.envara-transcript .message {
-    margin-bottom: 15px;
+.envara-conversation-transcript__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
 }
 
-.envara-transcript .message-assistant {
-    background: #f3f4f7;
-    padding: 10px;
-    border-radius: 4px;
+.envara-conversation-transcript__header h2 {
+    margin: 0;
+}
+
+.envara-conversation-transcript__header .badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.envara-conversation-empty {
+    margin-top: 16px;
+    color: #475569;
+}
+
+.envara-conversation-message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.envara-conversation-message {
+    padding: 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.envara-conversation-message.message-user {
+    background: #eef2ff;
+    border-color: rgba(99, 102, 241, 0.35);
+}
+
+.envara-conversation-message__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.envara-conversation-message__meta .author {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.envara-conversation-message__body {
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+.envara-conversation-message__body p {
+    margin: 0 0 8px;
+}
+
+.envara-conversation-message__body p:last-child {
+    margin-bottom: 0;
 }
 
 .envara-form-builder {

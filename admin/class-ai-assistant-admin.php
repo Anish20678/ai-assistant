@@ -32,6 +32,13 @@ class Admin {
     private static $instance = null;
 
     /**
+     * Hidden conversation page hook suffix.
+     *
+     * @var string
+     */
+    private $conversation_page_hook = '';
+
+    /**
      * Private constructor.
      */
     private function __construct() {
@@ -76,6 +83,10 @@ class Admin {
         add_submenu_page( 'envara-ai-assistant', __( 'Customization', 'envara-ai-assistant' ), __( 'Customization', 'envara-ai-assistant' ), 'manage_options', 'envara-ai-assistant-customization', [ $this, 'render_customization' ] );
         add_submenu_page( 'envara-ai-assistant', __( 'Settings', 'envara-ai-assistant' ), __( 'Settings', 'envara-ai-assistant' ), 'manage_options', 'envara-ai-assistant-settings', [ $this, 'render_settings' ] );
         add_submenu_page( 'envara-ai-assistant', __( 'Logs & Analytics', 'envara-ai-assistant' ), __( 'Logs & Analytics', 'envara-ai-assistant' ), 'manage_options', 'envara-ai-assistant-logs', [ $this, 'render_logs' ] );
+
+        $this->conversation_page_hook = add_submenu_page( 'envara-ai-assistant', __( 'Conversation', 'envara-ai-assistant' ), __( 'Conversation', 'envara-ai-assistant' ), 'manage_options', 'envara-ai-assistant-conversation', [ $this, 'render_conversation_single' ] );
+
+        add_action( 'admin_head', [ $this, 'hide_conversation_submenu' ] );
     }
 
     /**
@@ -250,6 +261,7 @@ class Admin {
     public function render_conversations(): void {
         global $wpdb;
         $sessions_table = table_name( 'sessions' );
+        $messages_table = table_name( 'messages' );
 
         $chatbot_filter = isset( $_GET['chatbot_id'] ) ? absint( $_GET['chatbot_id'] ) : 0;
         $where          = '1=1';
@@ -258,11 +270,78 @@ class Admin {
         }
 
         $sessions = $wpdb->get_results( "SELECT * FROM {$sessions_table} WHERE {$where} ORDER BY start_time DESC LIMIT 100", ARRAY_A );
-        $view_id  = isset( $_GET['session_id'] ) ? sanitize_text_field( wp_unslash( $_GET['session_id'] ) ) : '';
-        $view     = $view_id ? Session::get( $view_id ) : null;
-        $messages = $view ? Session::get_messages( $view_id ) : [];
+
+        $message_counts  = [];
+        $latest_messages = [];
+
+        if ( ! empty( $sessions ) ) {
+            $session_ids = wp_list_pluck( $sessions, 'session_id' );
+
+            if ( $session_ids ) {
+                $placeholders = implode( ',', array_fill( 0, count( $session_ids ), '%s' ) );
+
+                $count_query = $wpdb->prepare(
+                    "SELECT session_id, COUNT(*) AS total FROM {$messages_table} WHERE session_id IN ($placeholders) GROUP BY session_id",
+                    $session_ids
+                );
+
+                $count_rows = $wpdb->get_results( $count_query, ARRAY_A );
+                foreach ( $count_rows as $row ) {
+                    $message_counts[ $row['session_id'] ] = (int) $row['total'];
+                }
+
+                $latest_query = $wpdb->prepare(
+                    "SELECT session_id, sender, message, timestamp FROM {$messages_table} WHERE session_id IN ($placeholders) ORDER BY timestamp DESC",
+                    $session_ids
+                );
+
+                $latest_rows = $wpdb->get_results( $latest_query, ARRAY_A );
+                foreach ( $latest_rows as $row ) {
+                    $id = $row['session_id'];
+                    if ( ! isset( $latest_messages[ $id ] ) ) {
+                        $latest_messages[ $id ] = $row;
+                    }
+                }
+            }
+        }
 
         include ENVARA_AI_ASSISTANT_PATH . 'admin/views/conversations.php';
+    }
+
+    /**
+     * Hides the conversation submenu from the sidebar.
+     */
+    public function hide_conversation_submenu(): void {
+        if ( ! empty( $this->conversation_page_hook ) ) {
+            remove_submenu_page( 'envara-ai-assistant', 'envara-ai-assistant-conversation' );
+        }
+    }
+
+    /**
+     * Renders a single conversation view.
+     */
+    public function render_conversation_single(): void {
+        $session_id = isset( $_GET['session_id'] ) ? sanitize_text_field( wp_unslash( $_GET['session_id'] ) ) : '';
+        if ( empty( $session_id ) ) {
+            $conversation = null;
+            $messages     = [];
+            $chatbot      = null;
+            include ENVARA_AI_ASSISTANT_PATH . 'admin/views/conversation-single.php';
+            return;
+        }
+
+        $conversation = Session::get( $session_id );
+        if ( ! $conversation ) {
+            $messages = [];
+            $chatbot  = null;
+            include ENVARA_AI_ASSISTANT_PATH . 'admin/views/conversation-single.php';
+            return;
+        }
+
+        $messages = Session::get_messages( $session_id );
+        $chatbot  = get_chatbot( (int) $conversation['chatbot_id'] );
+
+        include ENVARA_AI_ASSISTANT_PATH . 'admin/views/conversation-single.php';
     }
 
     /**
