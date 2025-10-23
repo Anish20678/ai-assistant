@@ -1,110 +1,627 @@
 .envara-ai-widget {
+    --envara-ai-theme: #7b3fff;
+    --envara-ai-theme-accent: #ad8cff;
     position: fixed;
     z-index: 9999;
-    bottom: 20px;
-    right: 20px;
+    bottom: 24px;
+    right: 24px;
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    color: #1f2937;
 }
 
-.envara-ai-widget .envara-ai-launch {
-    background: #1e73be;
-    color: #fff;
+.envara-ai-widget *,
+.envara-ai-widget *::before,
+.envara-ai-widget *::after {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.envara-ai-launch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 999px;
     border: none;
-    border-radius: 50px;
-    padding: 12px 20px;
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    color: #fff;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
+    box-shadow: 0 14px 30px rgba(91, 33, 182, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.envara-ai-widget .envara-ai-window {
+.envara-ai-launch:hover,
+.envara-ai-launch:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(91, 33, 182, 0.4);
+}
+
+.envara-ai-launch:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.envara-ai-launch-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.envara-ai-launch-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.envara-ai-window {
     position: absolute;
-    bottom: 60px;
+    bottom: 76px;
     right: 0;
-    width: 320px;
-    max-height: 500px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    width: 360px;
+    max-height: calc(100vh - 120px);
+}
+
+.envara-ai-surface {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.18);
     overflow: hidden;
 }
 
-.envara-ai-header {
-    background: #1e73be;
-    color: #fff;
-    padding: 12px;
+.envara-ai-hero {
+    padding: 22px 24px 20px;
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    color: #ffffff;
+}
+
+.envara-ai-hero-top {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.envara-ai-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.envara-ai-brand-name {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.envara-ai-avatars {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.envara-ai-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.envara-ai-avatar-secondary {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin-left: -10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.38);
+    border: 2px solid rgba(255, 255, 255, 0.45);
 }
 
 .envara-ai-close {
-    background: transparent;
     border: none;
-    color: inherit;
-    font-size: 20px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.envara-ai-body {
+.envara-ai-close:hover,
+.envara-ai-close:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.envara-ai-close svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.envara-ai-greeting {
+    margin-top: 22px;
+}
+
+.envara-ai-greeting h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.envara-ai-greeting p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.envara-ai-views {
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 20px 22px;
+    background: #ffffff;
+    gap: 12px;
+}
+
+.envara-ai-view {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    gap: 18px;
+    min-height: 0;
+}
+
+.envara-ai-view.is-active {
+    display: flex;
+}
+
+.envara-ai-view-home {
+    justify-content: flex-start;
+}
+
+.envara-ai-home-actions {
+    display: flex;
+}
+
+.envara-ai-start-chat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.envara-ai-start-chat:hover,
+.envara-ai-start-chat:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(99, 102, 241, 0.32);
+}
+
+.envara-ai-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: #f4f6fb;
+}
+
+.envara-ai-search input[type="search"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #111827;
+    outline: none;
+}
+
+.envara-ai-search input::placeholder {
+    color: #9ca3af;
+}
+
+.envara-ai-suggestion-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.envara-ai-suggestion-list li {
+    margin: 0;
+}
+
+.envara-ai-suggestion {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.envara-ai-suggestion:hover,
+.envara-ai-suggestion:focus {
+    border-color: var(--envara-ai-theme);
+    box-shadow: 0 12px 20px rgba(79, 70, 229, 0.12);
+}
+
+.envara-ai-empty-state {
+    margin: auto;
+    text-align: center;
+    padding: 24px 12px;
+    color: #475569;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.envara-ai-empty-illustration {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: rgba(99, 102, 241, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--envara-ai-theme);
+}
+
+.envara-ai-empty-illustration svg {
+    width: 38px;
+    height: 38px;
+    fill: currentColor;
+}
+
+.envara-ai-empty-state h3 {
+    margin: 12px 0 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.envara-ai-empty-state p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.envara-ai-help-content {
+    background: #f8faff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 18px;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+.envara-ai-help-content h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.envara-ai-help-text {
+    font-size: 14px;
+    color: #475569;
+}
+
+.envara-ai-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.envara-ai-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.envara-ai-form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.envara-ai-input-control {
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    padding: 12px 14px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+}
+
+.envara-ai-input-control:focus {
+    outline: none;
+    border-color: var(--envara-ai-theme);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+.envara-ai-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #334155;
+}
+
+.envara-ai-checkbox input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--envara-ai-theme);
+}
+
+.envara-ai-checkbox-label {
+    font-weight: 500;
+}
+
+.envara-ai-form-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.envara-ai-form-submit:hover,
+.envara-ai-form-submit:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(79, 70, 229, 0.22);
+}
+
+.envara-ai-form-submit.is-loading {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+.envara-ai-view-conversation {
+    flex: 1;
+}
+
+.envara-ai-conversation-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.envara-ai-back {
+    border: none;
+    background: #eef2ff;
+    color: var(--envara-ai-theme);
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.envara-ai-back svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.envara-ai-conversation-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.envara-ai-conversation-title {
+    font-weight: 600;
+    color: #111827;
+}
+
+.envara-ai-conversation-status {
+    font-size: 12px;
+    color: #6366f1;
 }
 
 .envara-ai-messages {
     flex: 1;
-    padding: 15px;
     overflow-y: auto;
-    background: #f7f9fc;
+    background: #f7f9ff;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .envara-ai-message {
-    margin-bottom: 12px;
+    max-width: 82%;
+    display: inline-flex;
 }
 
-.envara-ai-message.user {
-    text-align: right;
+.envara-ai-message.from-assistant .envara-ai-message-bubble {
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid rgba(99, 102, 241, 0.08);
 }
 
-.envara-ai-message .bubble {
-    display: inline-block;
-    padding: 10px 14px;
-    border-radius: 16px;
-    max-width: 80%;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+.envara-ai-message.from-user {
+    align-self: flex-end;
 }
 
-.envara-ai-message.user .bubble {
-    background: #1e73be;
-    color: #fff;
+.envara-ai-message.from-user .envara-ai-message-bubble {
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    color: #ffffff;
+}
+
+.envara-ai-message-bubble {
+    padding: 12px 16px;
+    border-radius: 16px 16px 16px 4px;
+    font-size: 14px;
+    line-height: 1.45;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    word-break: break-word;
+}
+
+.envara-ai-message.from-user .envara-ai-message-bubble {
+    border-radius: 16px 16px 4px 16px;
+    box-shadow: 0 12px 26px rgba(99, 102, 241, 0.2);
+}
+
+.envara-ai-chat {
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
 }
 
 .envara-ai-input {
-    padding: 10px;
-    border-top: 1px solid #e2e8f0;
-    background: #fff;
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 18px;
+    background: #eef2ff;
 }
 
 .envara-ai-input textarea {
     flex: 1;
     resize: none;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #111827;
+    max-height: 120px;
+    outline: none;
 }
 
-.envara-ai-form {
-    padding: 15px;
+.envara-ai-send {
+    border: none;
+    background: linear-gradient(140deg, var(--envara-ai-theme) 0%, var(--envara-ai-theme-accent) 100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.25);
 }
 
-.envara-ai-form .form-field {
-    margin-bottom: 12px;
+.envara-ai-send svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
 }
 
-.envara-ai-form label {
-    display: block;
-    margin-bottom: 4px;
+.envara-ai-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.envara-ai-nav button {
+    border: none;
+    background: transparent;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.envara-ai-nav button.is-active {
+    color: var(--envara-ai-theme);
     font-weight: 600;
+}
+
+.envara-ai-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+}
+
+.envara-ai-nav-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.envara-ai-widget .screen-reader-text {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 600px) {
+    .envara-ai-widget {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+    }
+
+    .envara-ai-window {
+        position: fixed;
+        bottom: 80px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+@media (max-width: 480px) {
+    .envara-ai-launch {
+        padding: 12px 16px;
+    }
+
+    .envara-ai-window {
+        bottom: 72px;
+        right: 12px;
+        left: 12px;
+    }
 }
